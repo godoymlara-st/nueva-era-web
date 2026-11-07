@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nueva Era Transporte | Traslados en Mendoza desde 1942</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header><div class="top"></div><div class="w nv">
+<a href="#inicio" class="lg"><img src="img/logo.png" alt="Nueva Era Transporte"></a>
+<button class="bg" id="bg" aria-label="Menú"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+<nav id="nv"><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido" style="color:var(--or)">Recorrido 3D</a><a href="#reservas">Mis reservas</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a><button class="btn" id="acc" type="button">Ingresar</button></nav>
+</div></header>
+
+<main>
+<section class="hero" id="inicio"><img class="hb" alt="Flota de Nueva Era frente a la Cordillera de los Andes" src="img/banner-flota.webp"><div class="w">
+<div>
+<span class="tag"><b></b> Flota 100% monitoreada por GPS en tiempo real</span>
+<h1>El transporte del <em>mendocino</em>, desde 1942.</h1></div>
+<div><p>Tres generaciones llevando empresas, escuelas y turistas por toda la provincia, con unidades propias, choferes de confianza y precio claro antes de viajar.</p>
+<div class="cta"><button class="btn y" data-vr>🚌 Entrar al colectivo</button><a class="btn" href="#cotizador">Cotizá tu traslado →</a><a class="btn o" href="#flota">Conocé la flota</a></div>
+</div>
+</div></section>
+
+
+<section id="cotizador" class="alt" style="padding:64px 0 80px"><div class="w">
+<span class="eye">Cotizador online</span><h2>Tu presupuesto en segundos.</h2>
+<p class="lead">Buscá la dirección o marcá en el mapa el punto exacto de salida y de llegada, elegí la unidad y obtené un valor estimado al instante. Después lo confirmamos con vos por WhatsApp.</p>
+<div class="cot">
+<div class="form">
+<div class="f"><label for="fe">Fecha</label><input type="date" id="fe"></div>
+<div class="f"><label for="un">Unidad</label><select id="un"><option value="bus">Ómnibus · 50 asientos</option><option value="spr">Sprinter · 19 asientos</option></select></div>
+<div class="f" style="position:relative"><label for="or">Origen</label><input id="or" placeholder="Dirección, lugar o coordenadas" autocomplete="off"><ul class="sg" id="sgor" hidden></ul></div>
+<div class="f" style="position:relative"><label for="de">Destino</label><input id="de" placeholder="Dirección, lugar o coordenadas" autocomplete="off"><ul class="sg" id="sgde" hidden></ul></div>
+<div class="full mapbox">
+<div class="mapbar"><button type="button" class="chipb" id="mo">📍 Marcar origen en el mapa</button><button type="button" class="chipb" id="md">📍 Marcar destino en el mapa</button><button type="button" class="chipb" id="mg">🎯 Usar mi ubicación como origen</button></div>
+<div id="map" role="application" aria-label="Mapa para marcar el origen y el destino"></div>
+<p class="mapst" id="mst" aria-live="polite">Escribí una dirección y elegí una sugerencia, o tocá el mapa para fijar el punto exacto. Podés arrastrar los pines A y B para ajustarlos.</p>
+<div class="gml"><a id="gmo" href="https://www.google.com/maps" target="_blank" rel="noopener">Ver origen en Google Maps ↗</a><a id="gmd" href="https://www.google.com/maps" target="_blank" rel="noopener">Ver destino en Google Maps ↗</a><a id="gmr" href="https://www.google.com/maps" target="_blank" rel="noopener">Ruta completa en Google Maps ↗</a></div>
+</div>
+<div class="f"><label for="km">Distancia del tramo (km) <span class="hint">· se calcula sola con el mapa</span></label><input type="number" id="km" min="1" value="60"></div>
+<div class="f"><label for="es">Tiempo de espera (hs)</label><input type="number" id="es" min="0" step=".5" value="3"></div>
+<label class="sw full f" style="flex-direction:row"><input type="checkbox" id="ida"> Solo ida</label>
+<label class="sw full f" style="flex-direction:row"><input type="checkbox" id="med"> Parada intermedia</label>
+<label class="sw full f" style="flex-direction:row"><input type="checkbox" id="en"> Chofer bilingüe (español / inglés)</label>
+</div>
+<aside class="res"><small>Importe total estimado</small><div class="tot" id="tot">$ 0</div>
+<div class="ln"><span>Servicio base</span><b id="r1"></b></div><div class="ln"><span>Kilómetros</span><b id="r2"></b></div><div class="ln"><span>Espera</span><b id="r3"></b></div><div class="ln"><span>Extras</span><b id="r4"></b></div>
+<button class="btn y" id="rs" type="button" style="width:100%;justify-content:center;margin-top:20px">Reservar este viaje</button>
+<a class="btn o" id="wa" href="#" target="_blank" rel="noopener" style="width:100%;justify-content:center;margin-top:10px;color:#fff">Pedir presupuesto formal</a>
+<p class="nt">Valores de referencia de la propuesta. Los kilómetros salen de la ruta real entre los puntos marcados; en la versión final se integra Google Maps Platform y las tarifas salen de la matriz de costos de la empresa.</p></aside>
+</div></div></section>
+
+<section style="padding:56px 0 0"><div class="w"><div class="stats rv-in" style="margin-top:0">
+<div><b>1942</b><span>Fundada en Maipú por Ibrahim Rauek</span></div>
+<div><b>3ª gen.</b><span>Gestión familiar, la familia Rauek</span></div>
+<div><b>29</b><span>Unidades Mercedes-Benz y Volkswagen</span></div>
+<div><b>100%</b><span>Flota con telemetría GPS satelital</span></div>
+</div></div></section>
+
+<section id="servicios" class="alt"><div class="w">
+<span class="eye">Qué hacemos</span><h2>Servicio contratado, a tu medida.</h2>
+<p class="lead">Contratás la unidad completa, con itinerario y precio pactados de antemano, tal como establece la Ley Provincial 9086 de Movilidad de Mendoza.</p>
+<div class="grid g4">
+<div class="card rv-in"><div class="ic">🏭</div><h3>Transporte de personal</h3><p>Traslados diarios para industrias, bodegas y contratistas, con recorridos fijos y puntualidad.</p></div>
+<div class="card rv-in"><div class="ic">🎓</div><h3>Escuelas y colegios</h3><p>Salidas pedagógicas y traslados escolares con choferes habilitados y respaldo institucional.</p></div>
+<div class="card rv-in"><div class="ic">🍇</div><h3>Turismo vitivinícola</h3><p>Contingentes por las rutas del vino de Maipú, Luján de Cuyo y Valle de Uco.</p></div>
+<div class="card rv-in"><div class="ic">🏛️</div><h3>Estado y licitaciones</h3><p>Proveedor inscripto del Estado: municipios, DGE y ministerios. Documentación lista para pliegos.</p></div>
+</div></div></section>
+
+<section id="flota"><div class="w">
+<span class="eye">Nuestra flota</span><h2>Cada unidad, con nombre y apellido.</h2>
+<p class="lead">Conocé el interno, su ficha técnica y al chofer que va a manejar. Esa transparencia es nuestra diferencia.</p>
+<div class="tabs" id="tabs"><button class="on" data-i="0">Ómnibus · 50 asientos</button><button data-i="1">Sprinter · 19 asientos</button></div>
+<div class="fl rv-in" style="margin-top:0">
+<div class="fch"><img class="bi" alt="Interno 07 Mercedes-Benz Nuevobus OH 1618" src="img/interno-07-omnibus.webp"><svg id="van" class="bi" viewBox="0 0 420 170" role="img" aria-label="Sprinter de 19 asientos" style="display:none;max-height:250px"><ellipse cx="205" cy="152" rx="170" ry="8" fill="rgba(0,0,0,.25)"/><path d="M30 122V58Q30 44 44 44H262Q273 44 281 52L331 94Q352 100 362 112V122Z" fill="#fff"/><rect x="30" y="102" width="312" height="7" fill="#e8300d"/><g fill="#9fd3f5"><rect x="48" y="56" width="42" height="30" rx="5"/><rect x="98" y="56" width="42" height="30" rx="5"/><rect x="148" y="56" width="42" height="30" rx="5"/><rect x="198" y="56" width="42" height="30" rx="5"/><path d="M258 56H268L304 88H258Z"/></g><circle cx="100" cy="124" r="25" fill="#17181c"/><circle cx="100" cy="124" r="10" fill="#9aa0a8"/><circle cx="300" cy="124" r="25" fill="#17181c"/><circle cx="300" cy="124" r="10" fill="#9aa0a8"/></svg><div class="int"><small>INTERNO</small><b id="fi">07</b></div>
+<dl id="fd"></dl></div>
+<div class="drv"><div class="av"><img class="dp" alt="Carlos López, chofer" src="img/chofer-carlos-lopez.webp"><div><h3 style="font-size:24px">Carlos López</h3><div class="st">★★★★★ <span style="color:var(--tx);font-weight:700;letter-spacing:0">4,8</span></div></div></div>
+<p style="color:var(--mu);font-size:14px"><b style="color:var(--tx)">5 años</b> de antigüedad · Licencia especial N° 154322/34 · Español / Inglés</p>
+<div class="rv">“Puntual, amable y te hace sentir súper seguro en el viaje.”</div>
+<div class="rv">“Muy prudente en las rutas de montaña y respetuoso de las normas.”</div>
+<a class="btn" href="#cotizador" style="margin-top:18px">Cotizar esta unidad</a></div>
+</div></div></section>
+
+<section id="recorrido"><div class="w"><span class="eye">Recorrido 3D</span><h2>Viajá cómodo, viajá seguro.</h2>
+<p class="lead">Butacas tapizadas, pasillos amplios y unidades en perfecto estado. Tocá una foto para verla en grande, o subite al colectivo.</p><button class="btn y" data-vr style="margin-top:20px">🚌 Entrar al colectivo</button>
+<div class="gal rv-in"><figure><img src="img/galeria-omnibus-interior.webp" alt="Interior de ómnibus con butacas" loading="lazy"><figcaption>Ómnibus · interior</figcaption></figure>
+<figure><img src="img/galeria-frente-unidad.webp" alt="Frente de un ómnibus Nueva Era" loading="lazy"><figcaption>Unidad Mercedes-Benz</figcaption></figure>
+<figure><img src="img/galeria-minibus-interior.webp" alt="Interior con butacas turquesa" loading="lazy"><figcaption>Minibus · interior</figcaption></figure></div></div></section>
+<div class="vr" id="vr" role="dialog" aria-label="Recorrido virtual"><div class="vp" id="vp"><div class="vi" id="vi"><img id="vimg" alt=""><div id="vhs"></div></div></div><div class="vsh"></div><div class="vv" id="vv"></div>
+<div class="vtop"><div><b id="vt"></b><small>Recorrido virtual</small></div><span class="gps"><i></i>GPS en vivo</span><a class="btn" id="vq" href="#cotizador">Cotizar</a><button id="vx" aria-label="Cerrar">✕</button></div>
+<div class="vh" id="vh">Arrastrá o inclinás el celular para mirar</div><div class="hi" id="hi"></div><div class="vn" id="vn"></div></div>
+<div class="lb" id="lb"><img alt=""></div>
+<section id="reservas" class="alt"><div class="w">
+<span class="eye">Mis reservas</span><h2>Tus viajes, en un solo lugar.</h2>
+<p class="lead">Consultá el estado de tus traslados, revisá el recorrido en Google Maps o cancelá una reserva.</p>
+<div id="rsv" style="margin-top:36px"></div></div></section>
+
+<section id="faq"><div class="w" style="max-width:820px">
+<span class="eye">Preguntas frecuentes</span><h2>Lo que más nos preguntan.</h2><div style="height:24px"></div>
+<details><summary>¿Venden pasajes individuales?</summary><p>No. Por la Ley 9086 trabajamos como Servicio Contratado General: se contrata la unidad completa, con itinerario y precio pactados.</p></details>
+<details><summary>¿Cómo se calcula el precio?</summary><p>Según la unidad elegida, los kilómetros del recorrido, el tiempo de espera y los extras. Siempre antes de confirmar.</p></details>
+<details><summary>¿Pueden participar en licitaciones del Estado?</summary><p>Sí. Estamos inscriptos en el Registro de Proveedores del Estado y trabajamos con municipios y organismos provinciales.</p></details>
+<details><summary>¿Puedo seguir el viaje?</summary><p>Toda la flota tiene GPS satelital en tiempo real, lo que permite controlar el inicio y el recorrido de cada servicio.</p></details>
+</div></section>
+
+<section id="contacto" class="alt"><div class="w ct">
+<div><span class="eye">Contacto</span><h2>Hablemos de tu próximo viaje.</h2>
+<ul><li><span class="ic" style="margin:0">📍</span>Maipú, Mendoza, Argentina</li><li><span class="ic" style="margin:0">💬</span>WhatsApp Business (a definir)</li><li><span class="ic" style="margin:0">✉️</span>contacto@nuevaera.com.ar (a definir)</li></ul></div>
+<div class="card" style="display:grid;gap:14px"><div class="f"><label for="nm">Nombre o empresa</label><input id="nm"></div><div class="f"><label for="ms">Mensaje</label><textarea id="ms" rows="4"></textarea></div><button class="btn" id="sd" style="justify-content:center">Enviar consulta</button></div>
+</div></section>
+</main>
+<footer><div class="w"><span style="display:flex;gap:12px;align-items:center"><span class="lg" style="padding:3px 8px"><img style="height:28px" src="img/logo.png" alt=""></span>© 2026 Nueva Era Transporte · Maipú, Mendoza</span></span><span>Propuesta digital · Tesina UTN</span></div></footer>
+
+<div class="md" id="lgm"><div class="mc" role="dialog" aria-modal="true" aria-labelledby="lgt">
+<button class="mx" id="lgx" type="button" aria-label="Cerrar">✕</button>
+<h3 id="lgt">Ingresá a tu cuenta</h3><p class="mu" id="lgs">Para ver y gestionar tus reservas.</p>
+<div class="tabs" id="lgtabs"><button type="button" class="on" data-m="in">Ingresar</button><button type="button" data-m="up">Crear cuenta</button></div>
+<form id="lgf" novalidate>
+<div class="f" id="lgn" hidden><label for="lgnm">Nombre o empresa</label><input id="lgnm" autocomplete="name"></div>
+<div class="f"><label for="lge">Email</label><input type="email" id="lge" autocomplete="email"></div>
+<div class="f"><label for="lgp">Contraseña</label><input type="password" id="lgp" autocomplete="current-password"></div>
+<p class="err" id="lgerr" role="alert"></p>
+<button class="btn" type="submit" id="lgb" style="justify-content:center">Ingresar</button>
+</form>
+<p class="nt2">Prototipo: la sesión se simula en este navegador. No se envía ni se guarda ninguna contraseña.</p>
+</div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="mapa-reservas.js"></script>
+</body>
+</html>
