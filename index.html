@@ -35,7 +35,7 @@
 <div class="cot">
 <div class="form">
 <div class="f"><label for="fe">Fecha</label><input type="date" id="fe"></div>
-<div class="f"><label for="un">Unidad</label><select id="un"><option value="bus">Ómnibus · 50 asientos</option><option value="spr">Sprinter · 19 asientos</option></select></div>
+<div class="f"><label for="un">Unidad</label><select id="un"><option value="bus">Ómnibus · 50 asientos</option><option value="vw">Ómnibus con baño · 45 asientos</option><option value="spr">Sprinter · 19 asientos</option></select></div>
 <div class="f" style="position:relative"><label for="or">Origen</label><input id="or" placeholder="Dirección, lugar o coordenadas" autocomplete="off"><ul class="sg" id="sgor" hidden></ul></div>
 <div class="f" style="position:relative"><label for="de">Destino</label><input id="de" placeholder="Dirección, lugar o coordenadas" autocomplete="off"><ul class="sg" id="sgde" hidden></ul></div>
 <div class="full mapbox">
@@ -79,20 +79,19 @@
 <p class="lead">Primero, toda la flota junta. Después, cada unidad con su ficha técnica y el chofer que la maneja. Esa transparencia es nuestra diferencia.</p>
 <figure class="fleetall rv-in"><img src="img/flota-completa.webp" alt="Toda la flota de Nueva Era formada frente a los viñedos y la Cordillera de los Andes" loading="lazy"><figcaption><b>29 unidades</b> Mercedes-Benz y Volkswagen, todas con GPS satelital</figcaption></figure>
 <h3 class="subh">Conocé cada unidad</h3>
-<div class="tabs" id="tabs"><button class="on" data-i="0">Ómnibus · 50 asientos</button><button data-i="1">Sprinter · 19 asientos</button></div>
+<div class="tabs" id="tabs"><button class="on" data-k="bus">Ómnibus · 50 asientos</button><button data-k="vw">Ómnibus con baño · 45 asientos</button><button data-k="spr">Sprinter · 19 asientos</button></div>
 <div class="fl rv-in" style="margin-top:0">
-<div class="fch"><img class="bi" id="fimg" alt="" src="img/interno-07-omnibus.webp"><div class="int"><small>INTERNO</small><b id="fi">07</b></div>
+<div class="fch"><img class="bi" id="fimg" alt="" src="img/interno-29.webp"><div class="int"><small>INTERNO</small><b id="fi">07</b></div>
 <dl id="fd"></dl></div>
 <div class="drv" id="drv"></div>
 </div>
-<p class="nt2" style="margin-top:14px">Las fichas de choferes y las reseñas son datos de ejemplo del prototipo.</p>
 </div></section>
 
 <section id="recorrido"><div class="w"><span class="eye">Recorrido 3D</span><h2>Viajá cómodo, viajá seguro.</h2>
 <p class="lead">Butacas tapizadas, pasillos amplios y unidades en perfecto estado. Tocá una foto para verla en grande, o subite al colectivo.</p><button class="btn y" data-vr style="margin-top:20px">🚌 Entrar al colectivo</button>
-<div class="gal rv-in"><figure><img src="img/galeria-omnibus-interior.webp" alt="Interior de ómnibus con butacas" loading="lazy"><figcaption>Ómnibus · interior</figcaption></figure>
-<figure><img src="img/galeria-frente-unidad.webp" alt="Frente de un ómnibus Nueva Era" loading="lazy"><figcaption>Unidad Mercedes-Benz</figcaption></figure>
-<figure><img src="img/galeria-minibus-interior.webp" alt="Interior con butacas turquesa" loading="lazy"><figcaption>Minibus · interior</figcaption></figure></div></div></section>
+<div class="gal rv-in"><figure><img src="img/galeria-pasillo-50.webp" alt="Pasillo de un ómnibus de 50 butacas con cubre-cabezales de Nueva Era" loading="lazy"><figcaption>Ómnibus de 50 butacas</figcaption></figure>
+<figure><img src="img/galeria-pasillo-bano.webp" alt="Pasillo del ómnibus con baño, butacas reclinables y baño al fondo" loading="lazy"><figcaption>Ómnibus con baño</figcaption></figure>
+<figure><img src="img/galeria-butacas.webp" alt="Butacas reclinables azules y grises con cubre-cabezal Nueva Era" loading="lazy"><figcaption>Butacas reclinables</figcaption></figure></div></div></section>
 <div class="vr" id="vr" role="dialog" aria-label="Recorrido virtual"><div class="vp" id="vp"><div class="vi" id="vi"><img id="vimg" alt=""><div id="vhs"></div></div></div><div class="vsh"></div><div class="vv" id="vv"></div>
 <div class="vtop"><div><b id="vt"></b><small>Recorrido virtual</small></div><span class="gps"><i></i>GPS en vivo</span><a class="btn" id="vq" href="#cotizador">Cotizar</a><button id="vx" aria-label="Cerrar">✕</button></div>
 <div class="vh" id="vh">Arrastrá o inclinás el celular para mirar</div><div class="hi" id="hi"></div><div class="vn" id="vn"></div></div>

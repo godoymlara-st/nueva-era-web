@@ -259,3 +259,5 @@ footer .w.fbot{border-top:1px solid #2a2c33;padding-top:20px}
 @media(max-width:520px){.wafab b{display:none}.wafab{padding:14px}footer .w.ft{grid-template-columns:1fr}}
 .opt{font:500 14px/1.4 Inter;text-transform:none;letter-spacing:0;color:var(--tx)}
 .fb .lg{display:inline-flex;width:auto}
+.dp{background:var(--bg2);border:2px solid var(--ln)}
+.tabs button{white-space:normal;text-align:center}

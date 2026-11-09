@@ -14,8 +14,9 @@ Prototipo de la web para la tesina (UTN). Es HTML, CSS y JavaScript puro: no hac
 ## Cosas que hay que completar (están marcadas "a definir")
 - **WhatsApp Business:** en `app.js`, línea `const WA_NUM=""` (código de país + número, sin +, ej: `5492610000000`). Con eso funcionan todos los botones "Quiero hablar con un asesor".
 - **Seña:** en `app.js`, `const SENA=0.3` (30%).
-- **Choferes:** datos en `app.js`, dentro de cada unidad (`ch:{...}`). La foto de Martín Sosa es un avatar provisorio: para poner una foto real, subila a `img/` y cambiá la ruta en `foto:` (por ejemplo `img/chofer-martin-sosa.jpg`). Los nombres, licencias y reseñas son ejemplos.
-- **Sprinter:** año, dominio e interno en `app.js`.
+- **Unidades y choferes:** los datos reales (internos 29, 04 y 26, choferes, licencias, idiomas, puntajes y comentarios) están en `app.js`, dentro de `const U`. Para cambiar una foto, reemplazá el archivo de `img/` manteniendo el nombre.
+- **Foto del interno 29:** todavía no hay foto propia de esa unidad; `img/interno-29.webp` es una foto provisoria de otro Mercedes Nuevobus. Reemplazala por la real con ese mismo nombre.
+- **Precios:** son de referencia. El ómnibus con baño (interno 04) usa los mismos valores que el ómnibus de 50 asientos; se ajustan en `app.js` (`b` = base, `k` = por km, `e` = espera por hora).
 - **Textos legales y promociones:** `legales.js`. Todo lo que está entre [corchetes] lo define la empresa y el texto lo tiene que revisar un asesor legal.
 - **Transferencia:** CBU, alias y titular en `cuenta.js` (buscar "[a definir]").
 

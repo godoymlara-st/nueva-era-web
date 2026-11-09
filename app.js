@@ -6,23 +6,27 @@ const waUrl=m=>"https://wa.me/"+WA_NUM+"?text="+encodeURIComponent(m);
 const $=id=>document.getElementById(id),fmt=n=>"$ "+Math.round(n).toLocaleString("es-AR");
 /* Unidades: precios de referencia, ficha técnica y chofer asignado (datos de ejemplo) */
 const U={
-bus:{n:"Ómnibus",b:90000,k:2100,e:22000,i:"07",img:"img/interno-07-omnibus.webp",alt:"Interno 07 Mercedes-Benz Nuevobus OH 1618",ph:0,
- d:[["Marca","Mercedes-Benz"],["Modelo","Nuevobus OH 1618"],["Año","2021"],["Dominio","AE 638 BR"],["Butacas","50 asientos"]],
- ch:{n:"Carlos López",foto:"img/chofer-carlos-lopez.webp",r:"4,8",a:"5 años",l:"Licencia especial N° 154322/34",i:"Español / Inglés",
-  rv:["Puntual, amable y te hace sentir súper seguro en el viaje.","Muy prudente en las rutas de montaña y respetuoso de las normas."]}},
-spr:{n:"Sprinter",b:60000,k:1400,e:15000,i:"12",img:"img/sprinter.jpg",alt:"Mercedes-Benz Sprinter de 19 asientos de Nueva Era",ph:1,
- d:[["Marca","Mercedes-Benz"],["Modelo","Sprinter"],["Año","A definir"],["Dominio","A definir"],["Butacas","19 asientos"]],
- ch:{n:"Martín Sosa",foto:"img/chofer-martin-sosa.svg",r:"4,9",a:"3 años",l:"Licencia especial N° 187452/36",i:"Español",
-  rv:["Muy amable con todo el grupo y siempre a horario.","Conoce los caminos de la zona y maneja con mucha calma."]}}};
+bus:{n:"Ómnibus 50 asientos",b:90000,k:2100,e:22000,i:"29",img:"img/interno-29.webp",alt:"Ómnibus Mercedes-Benz Nuevobus OH 1618 de Nueva Era",ph:0,
+ d:[["Marca","Mercedes-Benz"],["Modelo","Nuevobus OH 1618"],["Año","2021"],["Dominio","AE 846 DE"],["Butacas","50 fijas"],["Clima","A/A y calefacción"],["Baño","No"]],
+ ch:{n:"Karim Rauek",foto:"img/chofer-karim-rauek.webp",r:"4,8",a:"4 años",l:"Licencia especial N° LINT-2021-004827",i:"Español, Inglés",
+  rv:["Puntual, amable y te hace sentir súper seguro en el viaje.","Muy prudente en las rutas de montaña y respetuoso de las normas.","Maneja con cuidado y cumple con los horarios."]}},
+vw:{n:"Ómnibus con baño 45 asientos",b:90000,k:2100,e:22000,i:"04",img:"img/interno-04-volksbus.webp",alt:"Ómnibus Volkswagen Volksbus 17.230 OD de Nueva Era, interno 04",ph:1,
+ d:[["Marca","Volkswagen"],["Modelo","Volksbus 17.230 OD"],["Año","2007"],["Dominio","GJI 656"],["Butacas","45 reclinables"],["Clima","A/A y calefacción"],["Baño","Sí"]],
+ ch:{n:"Carlos Rauek",foto:"img/chofer-carlos-rauek.webp",r:"5,0",a:"17 años",l:"Licencia especial N° LINT-2009-002641",i:"Español",
+  rv:["Colectivo limpio y excelente trato del conductor.","Se nota la experiencia, excelente manejo en ruta.","Muy cordial y responsable. Da mucha tranquilidad viajar así."]}},
+spr:{n:"Sprinter 19 asientos",b:60000,k:1400,e:15000,i:"26",img:"img/interno-26-sprinter.webp",alt:"Mercedes-Benz Sprinter de 19 asientos de Nueva Era, interno 26",ph:1,
+ d:[["Marca","Mercedes-Benz"],["Modelo","Sprinter"],["Año","2025"],["Dominio","AH 136 WI"],["Butacas","19 reclinables"],["Clima","A/A y calefacción"],["Baño","No"]],
+ ch:{n:"Ibraim Hessar",foto:"img/chofer-ibraim-hessar.webp",r:"4,9",a:"9 años",l:"Licencia especial N° LINT-2017-008315",i:"Español, Inglés",
+  rv:["Muy profesional, conducción segura y tranquila.","Siempre atento a los pasajeros. ¡Muy buen servicio!","Un conductor de primera, siempre atento y puntual."]}}};
 function ficha(k){const u=U[k],c=u.ch;
 $("fi").textContent=u.i;$("fd").innerHTML=u.d.map(x=>`<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join("");
 const im=$("fimg");im.src=u.img;im.alt=u.alt;im.classList.toggle("ph",!!u.ph);
 $("drv").innerHTML=`<div class="av"><img class="dp" alt="${c.n}, chofer" src="${c.foto}"><div><h3 style="font-size:24px">${c.n}</h3><div class="st">★★★★★ <span style="color:var(--tx);font-weight:700;letter-spacing:0">${c.r}</span></div></div></div><p style="color:var(--mu);font-size:14px"><b style="color:var(--tx)">${c.a}</b> de antigüedad · ${c.l} · ${c.i}</p>${c.rv.map(r=>`<div class="rv">“${r}”</div>`).join("")}<a class="btn" href="#cotizador" style="margin-top:18px" data-un="${k}">Cotizar esta unidad</a>`;
-document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",(x.dataset.i==="0")===(k==="bus")))}
+document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x.dataset.k===k))}
 $("drv").addEventListener("click",e=>{const a=e.target.closest("[data-un]");if(a){$("un").value=a.dataset.un;calc()}});
 ficha("bus");
 $("un").addEventListener("change",()=>ficha($("un").value));
-document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");const k=b.dataset.i==="0"?"bus":"spr";ficha(k);$("un").value=k;calc()});
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ficha(b.dataset.k);$("un").value=b.dataset.k;calc()});
 function calc(){const u=U[$("un").value],km=Math.max(0,+$("km").value||0),h=Math.max(0,+$("es").value||0),ida=$("ida").checked;
 const base=u.b,kms=km*u.k*(ida?1:2),esp=h*u.e;let ex=0;if($("med").checked)ex+=(base+kms)*.08;if($("en").checked)ex+=(base+kms)*.1;
 const t=base+kms+esp+ex;$("tot").textContent=fmt(t);$("r1").textContent=fmt(base);$("r2").textContent=fmt(kms);$("r3").textContent=fmt(esp);$("r4").textContent=fmt(ex);
@@ -38,10 +42,11 @@ document.querySelectorAll(".gal img").forEach(i=>i.onclick=()=>{const l=$("lb");
 const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("v")),{threshold:.15});
 document.querySelectorAll(".rv-in").forEach(e=>io.observe(e));
 
-(function(){const G=[...document.querySelectorAll(".gal img")].map(i=>i.src);
-const SC=[{t:"Exterior · Mercedes-Benz",img:G[1],n:"Afuera",z:[47,60],hs:[{x:47,y:60,go:1,l:"▶"},{x:55,y:30,l:"i",h:"Frente",d:"Mercedes-Benz Nuevobus OH 1618: 50 lugares, unidad con GPS satelital."}]},
-{t:"Pasillo · Ómnibus",img:G[0],n:"Pasillo",hs:[{x:27,y:55,l:"i",h:"Butacas",d:"Asientos individuales tapizados, con buen espacio entre filas."},{x:46,y:78,l:"i",h:"Pasamanos",d:"Barras de seguridad para viajar cómodo también de pie."},{x:72,y:28,l:"i",h:"Cortinas",d:"Control de luz y sol en los viajes largos."},{x:50,y:42,l:"i",h:"Telemetría GPS",d:"Las 29 unidades se monitorean por satélite en tiempo real."}]},
-{t:"Butacas · Minibus",img:G[2],n:"Butacas",hs:[{x:30,y:48,l:"i",h:"Butacas turquesa",d:"Asientos individuales con respaldo alto."},{x:20,y:30,l:"i",h:"Ventanas amplias",d:"Mucha luz natural y vista a la montaña."},{x:86,y:46,l:"i",h:"Tu chofer",d:"Profesionales con licencia especial. Español e inglés."},{x:50,y:72,go:0,l:"↺"}]}];
+(function(){const SC=[{t:"Exterior · Volkswagen interno 04",img:"img/interno-04-volksbus.webp",n:"Afuera",z:[64,58],hs:[{x:64,y:58,go:1,l:"▶"},{x:30,y:36,l:"i",h:"Volkswagen Volksbus 17.230 OD",d:"45 butacas reclinables, aire acondicionado, calefacción y baño a bordo."}]},
+{t:"Pasillo · Ómnibus de 50 butacas",img:"img/galeria-pasillo-50.webp",n:"Pasillo",hs:[{x:15,y:68,l:"i",h:"Butacas",d:"Asientos tapizados con cubre-cabezal Nueva Era y buen espacio entre filas."},{x:30,y:14,l:"i",h:"Aire acondicionado",d:"Salidas de aire individuales sobre cada fila, más calefacción para el invierno."},{x:21,y:34,l:"i",h:"Cortinas",d:"Control de luz y sol en los viajes largos."},{x:51,y:44,l:"i",h:"Telemetría GPS",d:"Las 29 unidades se monitorean por satélite en tiempo real."},{x:51,y:68,go:2,l:"→"}]},
+{t:"Pasillo · Ómnibus con baño",img:"img/galeria-pasillo-bano.webp",n:"Con baño",hs:[{x:50,y:50,l:"i",h:"Baño a bordo",d:"El interno 04 cuenta con baño al fondo, ideal para los viajes largos."},{x:20,y:66,l:"i",h:"Butacas reclinables",d:"Asientos con cinturón de seguridad y apoyabrazos."},{x:50,y:12,l:"i",h:"Aire acondicionado y calefacción",d:"Climatización en todo el pasillo."},{x:50,y:70,go:3,l:"→"}]},
+{t:"Butacas reclinables",img:"img/galeria-butacas.webp",n:"Butacas",hs:[{x:42,y:42,l:"i",h:"Respaldo alto",d:"Butacas con cabecera y cinturón de seguridad."},{x:80,y:30,l:"i",h:"Ventanas amplias",d:"Mucha luz natural y vista a la montaña."},{x:56,y:70,l:"i",h:"Apoyabrazos",d:"Cada butaca tiene apoyabrazos propio."},{x:88,y:72,go:4,l:"→"}]},
+{t:"Exterior · Sprinter interno 26",img:"img/interno-26-sprinter.webp",n:"Sprinter",hs:[{x:68,y:50,l:"i",h:"Mercedes-Benz Sprinter",d:"19 butacas reclinables, aire acondicionado y calefacción. Ideal para grupos chicos."},{x:50,y:70,go:0,l:"↺"}]}];
 const $=id=>document.getElementById(id),vr=$("vr"),vi=$("vi"),vimg=$("vimg"),vp=$("vp"),vv=$("vv"),hi=$("hi");
 let s=0,px=0,py=0,tx=0,ty=0,W=0,H=0,drag=null,raf=0,busy=false,mx=0,my=0,gx=0;
 const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
