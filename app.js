@@ -1,7 +1,25 @@
+/* ===== CONFIGURACIÓN (editar acá) ===== */
+const WA_NUM="";   // WhatsApp Business de Nueva Era: código de país + número, sin "+" (ej: 5492610000000). A definir.
+const SENA=0.3;    // Porcentaje de seña al reservar (0.3 = 30%). A definir con la empresa.
+const waUrl=m=>"https://wa.me/"+WA_NUM+"?text="+encodeURIComponent(m);
+
 const $=id=>document.getElementById(id),fmt=n=>"$ "+Math.round(n).toLocaleString("es-AR");
-const U={bus:{n:"Ómnibus",b:90000,k:2100,e:22000,d:[["Marca","Mercedes-Benz"],["Modelo","Nuevobus OH 1618"],["Año","2021"],["Dominio","AE 638 BR"],["Butacas","50 lugares"]],i:"07"},
-spr:{n:"Sprinter",b:60000,k:1400,e:15000,d:[["Marca","Mercedes-Benz"],["Modelo","Sprinter"],["Año","A definir"],["Dominio","A definir"],["Butacas","19 asientos"]],i:"12"}};
-function ficha(k){$("fi").textContent=U[k].i;$("fd").innerHTML=U[k].d.map(x=>`<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join("");const bus=k==="bus";document.querySelector(".fch img.bi").style.display=bus?"":"none";$("van").style.display=bus?"none":"block";document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",(x.dataset.i==="0")===bus))}
+/* Unidades: precios de referencia, ficha técnica y chofer asignado (datos de ejemplo) */
+const U={
+bus:{n:"Ómnibus",b:90000,k:2100,e:22000,i:"07",img:"img/interno-07-omnibus.webp",alt:"Interno 07 Mercedes-Benz Nuevobus OH 1618",ph:0,
+ d:[["Marca","Mercedes-Benz"],["Modelo","Nuevobus OH 1618"],["Año","2021"],["Dominio","AE 638 BR"],["Butacas","50 asientos"]],
+ ch:{n:"Carlos López",foto:"img/chofer-carlos-lopez.webp",r:"4,8",a:"5 años",l:"Licencia especial N° 154322/34",i:"Español / Inglés",
+  rv:["Puntual, amable y te hace sentir súper seguro en el viaje.","Muy prudente en las rutas de montaña y respetuoso de las normas."]}},
+spr:{n:"Sprinter",b:60000,k:1400,e:15000,i:"12",img:"img/sprinter.jpg",alt:"Mercedes-Benz Sprinter de 19 asientos de Nueva Era",ph:1,
+ d:[["Marca","Mercedes-Benz"],["Modelo","Sprinter"],["Año","A definir"],["Dominio","A definir"],["Butacas","19 asientos"]],
+ ch:{n:"Martín Sosa",foto:"img/chofer-martin-sosa.svg",r:"4,9",a:"3 años",l:"Licencia especial N° 187452/36",i:"Español",
+  rv:["Muy amable con todo el grupo y siempre a horario.","Conoce los caminos de la zona y maneja con mucha calma."]}}};
+function ficha(k){const u=U[k],c=u.ch;
+$("fi").textContent=u.i;$("fd").innerHTML=u.d.map(x=>`<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join("");
+const im=$("fimg");im.src=u.img;im.alt=u.alt;im.classList.toggle("ph",!!u.ph);
+$("drv").innerHTML=`<div class="av"><img class="dp" alt="${c.n}, chofer" src="${c.foto}"><div><h3 style="font-size:24px">${c.n}</h3><div class="st">★★★★★ <span style="color:var(--tx);font-weight:700;letter-spacing:0">${c.r}</span></div></div></div><p style="color:var(--mu);font-size:14px"><b style="color:var(--tx)">${c.a}</b> de antigüedad · ${c.l} · ${c.i}</p>${c.rv.map(r=>`<div class="rv">“${r}”</div>`).join("")}<a class="btn" href="#cotizador" style="margin-top:18px" data-un="${k}">Cotizar esta unidad</a>`;
+document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",(x.dataset.i==="0")===(k==="bus")))}
+$("drv").addEventListener("click",e=>{const a=e.target.closest("[data-un]");if(a){$("un").value=a.dataset.un;calc()}});
 ficha("bus");
 $("un").addEventListener("change",()=>ficha($("un").value));
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");const k=b.dataset.i==="0"?"bus":"spr";ficha(k);$("un").value=k;calc()});
@@ -10,11 +28,12 @@ const base=u.b,kms=km*u.k*(ida?1:2),esp=h*u.e;let ex=0;if($("med").checked)ex+=(
 const t=base+kms+esp+ex;$("tot").textContent=fmt(t);$("r1").textContent=fmt(base);$("r2").textContent=fmt(kms);$("r3").textContent=fmt(esp);$("r4").textContent=fmt(ex);
 const PT=window.__pts||{},ml=k=>PT[k]?` (${PT[k].url})`:"";window.__q={u:u.n,t,km,ida,or:$("or").value,de:$("de").value,fe:$("fe").value};
 const m=`Hola Nueva Era! Quiero cotizar: ${u.n}, ${$("or").value||"origen"}${ml("or")} → ${$("de").value||"destino"}${ml("de")}, ${km} km, ${ida?"solo ida":"ida y vuelta"}, fecha ${$("fe").value||"a definir"}. Estimado: ${fmt(t)}`;
-$("wa").href="https://wa.me/?text="+encodeURIComponent(m)}
+$("wa").href=waUrl(m)}
 document.querySelectorAll(".form input,.form select").forEach(e=>e.addEventListener("input",calc));
 const d=new Date();d.setDate(d.getDate()+14);$("fe").value=d.toISOString().slice(0,10);calc();
 $("bg").onclick=()=>$("nv").classList.toggle("open");document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>$("nv").classList.remove("open"));
-$("sd").onclick=()=>{window.open("https://wa.me/?text="+encodeURIComponent(`Hola, soy ${$("nm").value}. ${$("ms").value}`),"_blank")};
+document.querySelectorAll("[data-asesor]").forEach(a=>a.href=waUrl("Hola Nueva Era! Quiero hablar con un asesor."));
+$("sd").onclick=()=>{window.open(waUrl(`Hola, soy ${$("nm").value}. ${$("ms").value}`),"_blank")};
 document.querySelectorAll(".gal img").forEach(i=>i.onclick=()=>{const l=$("lb");l.firstElementChild.src=i.src;l.classList.add("on")});$("lb").onclick=()=>$("lb").classList.remove("on");
 const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("v")),{threshold:.15});
 document.querySelectorAll(".rv-in").forEach(e=>io.observe(e));
