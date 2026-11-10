@@ -20,12 +20,12 @@ async function H(pw,email){const s="ne|"+email+"|"+pw;try{if(window.crypto&&cryp
 let tt;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),4200)}
 
 /* ---------- modales ---------- */
-const MODALS=["pgm","lgm"];
+const MODALS=["pgm","lgm","acm"];
 function openM(id){lastFocus=document.activeElement;$(id).classList.add("on")}
 function closeM(id){$(id).classList.remove("on");if(id==="lgm")pend=null;lastFocus&&lastFocus.focus&&lastFocus.focus()}
 MODALS.forEach(id=>$(id).addEventListener("pointerdown",e=>{if(e.target===$(id))closeM(id)}));
-$("lgx").onclick=()=>closeM("lgm");$("pgx").onclick=()=>closeM("pgm");
-addEventListener("keydown",e=>{if(e.key!=="Escape")return;if($("lglm").classList.contains("on"))return window.closeLegal();for(const id of MODALS){if($(id).classList.contains("on")){closeM(id);break}}});
+$("lgx").onclick=()=>closeM("lgm");$("pgx").onclick=()=>closeM("pgm");$("acx").onclick=()=>closeM("acm");
+addEventListener("keydown",e=>{if(e.key!=="Escape")return;closeUm();if($("lglm").classList.contains("on"))return window.closeLegal();for(const id of MODALS){if($(id).classList.contains("on")){closeM(id);break}}});
 
 /* ---------- login / crear usuario ---------- */
 function setLg(m){
@@ -64,7 +64,7 @@ $("lgf").onsubmit=async e=>{
  const f=pend;pend=null;closeM("lgm");tab="res";render();
  if(f)f();else toast(`¡Hola, ${first(me.name)}! Sesión iniciada.`);
 };
-function logout(){me=null;ST.del("ne_user");tab="res";render();toast("Cerraste sesión.")}
+function logout(){me=null;ST.del("ne_user");tab="res";closeM("acm");render();toast("Cerraste sesión.")}
 
 /* ---------- reservas de ejemplo ---------- */
 function seed(){
@@ -78,13 +78,37 @@ function seed(){
 /* ---------- cuenta (sección "Mi cuenta") ---------- */
 const ini=n=>String(n||"?").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase()||"?";
 const avatar=sz=>me.foto?`<img class="avt" style="width:${sz}px;height:${sz}px" src="${me.foto}" alt="Tu foto de perfil">`:`<span class="avt ini" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz/2.6)}px" aria-hidden="true">${esc(ini(me.name))}</span>`;
-const TABS=[["res","📅 Mis reservas"],["datos","👤 Mis datos"],["bill","💳 Billetera"],["pass","🔑 Contraseña"]];
-function hdr(){$("acc").innerHTML=me?(me.foto?`<img class="avt mini" src="${me.foto}" alt="">`:"👤 ")+esc(first(me.name)):"Ingresar"}
-function render(){
- hdr();const el=$("cta");
- if(!me){el.innerHTML=`<div class="card empty"><div class="ic">🔒</div><h3>Ingresá para ver tu cuenta</h3><p>Con tu usuario podés reservar traslados, seguir su estado, guardar tus medios de pago y editar tus datos.</p><div class="cta"><button class="btn" data-lg="in">Ingresar</button><button class="btn o" data-lg="up">Crear nuevo usuario</button></div></div>`;return}
- el.innerHTML=`<div class="acct"><aside class="acn card">${avatar(76)}<h3>${esc(me.name)}</h3><p class="mu">${esc(me.email)}</p><nav class="acs" aria-label="Mi cuenta">${TABS.map(t=>`<button type="button" data-t="${t[0]}" class="${t[0]===tab?"on":""}" ${t[0]===tab?'aria-current="true"':""}>${t[1]}</button>`).join("")}<button type="button" data-out="1">⎋ Cerrar sesión</button></nav></aside><div class="acp" id="acp">${({res:pRes,datos:pDatos,bill:pBill,pass:pPass})[tab]()}</div></div>`;
+const IC={
+ res:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/>',
+ datos:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+ bill:'<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19"/>',
+ pass:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>',
+ out:'<path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M16 8l4 4-4 4M20 12H9"/>',
+ chev:'<path d="M6 9l6 6 6-6"/>'};
+const svg=k=>`<svg class="umi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+const TABS=[["res","Mis reservas"],["datos","Mis datos"],["bill","Billetera"],["pass","Contraseña"]];
+function closeUm(){const m=$("umm");if(m&&!m.hidden){m.hidden=true;$("acc").setAttribute("aria-expanded","false")}}
+function hdr(){
+ const u=$("um");
+ if(!me){u.innerHTML=`<button class="btn o ingb" id="acc" type="button">Ingresar</button>`;return}
+ const n=getR().filter(r=>r.est!=="Cancelada").length;
+ u.innerHTML=`<button class="umb" id="acc" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="umm">${avatar(32)}<span class="umn">${esc(first(me.name))}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC.chev}</svg></button>
+<div class="umm" id="umm" role="menu" hidden><div class="umh">${avatar(60)}<div><b>¡Hola, ${esc(first(me.name))}!</b><small>${esc(me.email)}</small></div></div>
+<div class="uml">${TABS.map(t=>`<button type="button" role="menuitem" data-open="${t[0]}">${svg(t[0])}<span>${t[1]}</span>${t[0]==="res"&&n?`<em>${n}</em>`:""}</button>`).join("")}</div>
+<div class="uml uo"><button type="button" role="menuitem" data-out="1">${svg("out")}<span>Cerrar sesión</span></button></div></div>`;
 }
+function render(){
+ hdr();
+ $("acp").innerHTML=me?({res:pRes,datos:pDatos,bill:pBill,pass:pPass})[tab]():"";
+}
+function openAcct(t){if(!me)return openLogin("in");tab=t;render();openM("acm")}
+$("um").addEventListener("click",e=>{
+ const t=e.target.closest("button");if(!t)return;
+ if(t.id==="acc"){if(!me)return openLogin("in");$("nv").classList.remove("open");const m=$("umm"),op=m.hidden;m.hidden=!op;t.setAttribute("aria-expanded",String(op));return}
+ if(t.dataset.open){closeUm();return openAcct(t.dataset.open)}
+ if(t.dataset.out){closeUm();return logout()}
+});
+document.addEventListener("pointerdown",e=>{if(!$("um").contains(e.target))closeUm()});
 function pRes(){
  const rs=getR();
  let h=`<div class="rh"><h3>Mis reservas</h3><a class="btn" href="#cotizador" style="padding:9px 18px;font-size:13px">+ Nueva reserva</a></div>`;
@@ -140,7 +164,8 @@ document.addEventListener("input",e=>{
  if(t.matches&&t.matches("[data-ce]")){let d=t.value.replace(/\D/g,"").slice(0,4);if(d.length>2)d=d.slice(0,2)+"/"+d.slice(2);t.value=d}
 });
 
-const cta=$("cta");
+const cta=$("acm");
+cta.addEventListener("click",e=>{if(e.target.closest("a[href^='#']"))closeM("acm")});
 cta.addEventListener("click",e=>{
  const t=e.target.closest("button");if(!t)return;
  if(t.dataset.lg)return openLogin(t.dataset.lg);
@@ -179,10 +204,6 @@ cta.addEventListener("submit",async e=>{
   me.hash=await H($("pc1").value,me.email);saveMe();render();toast("Contraseña actualizada.");
  }
 });
-const nvRes=document.querySelector('nav a[href="#reservas"]');
-nvRes&&nvRes.addEventListener("click",()=>{if(me){tab="res";render()}});
-$("acc").onclick=()=>{$("nv").classList.remove("open");if(me){tab="datos";render();go("reservas")}else openLogin("in")};
-
 /* ---------- pago: seña o total ---------- */
 const sena=()=>Math.round(CK.q.t*SENA);
 const val=n=>{const r=document.querySelector(`#pgb input[name="${n}"]:checked`);return r?r.value:""};
@@ -218,7 +239,7 @@ function ckSync(){
 $("pgb").addEventListener("change",e=>{if(e.target.name==="pm"||e.target.name==="mp")ckSync()});
 $("pgb").addEventListener("click",e=>{
  if(e.target.id==="pgpay")pay();
- if(e.target.id==="pgv"){closeM("pgm");tab="res";render();go("reservas")}
+ if(e.target.id==="pgv"){closeM("pgm");openAcct("res")}
  if(e.target.id==="pgc")closeM("pgm");
 });
 async function pay(){
@@ -240,7 +261,7 @@ async function pay(){
  $("pgh").textContent=tr?"Reserva registrada":"¡Pago recibido!";
  $("pgb").innerHTML=`<div class="okv"><div class="ic okic" aria-hidden="true">${tr?"⏳":"✓"}</div>
 <h3>${tr?`Reserva ${esc(id)} pendiente de pago`:`Reserva ${esc(id)} confirmada`}</h3>
-${tr?`<div class="sumy"><b>Datos para transferir ${fmt(monto)}</b><span>CBU: [a definir]</span><span>Alias: [a definir]</span><span>Titular: Nueva Era Transporte [a definir]</span></div><p class="mu">Cuando transfieras, enviá el comprobante por WhatsApp y confirmamos tu reserva.</p><a class="btn y" target="_blank" rel="noopener" href="${esc(waUrl(`Hola Nueva Era! Reservé el viaje ${id} y pago por transferencia ${fmt(monto)}. Te envío el comprobante.`))}">Enviar comprobante por WhatsApp</a>`:`<p>Abonaste <b>${fmt(monto)}</b> con ${esc(medio)}. ${sal>0?`Te queda un saldo de <b>${fmt(sal)}</b> para pagar antes del viaje desde Mis reservas.`:"La reserva quedó totalmente abonada."}</p>`}
+${tr?`<div class="sumy"><b>Datos para transferir ${fmt(monto)}</b>${BANCO.cbu||BANCO.alias?`${BANCO.cbu?`<span>CBU: ${esc(BANCO.cbu)}</span>`:""}${BANCO.alias?`<span>Alias: ${esc(BANCO.alias)}</span>`:""}<span>Titular: ${esc(BANCO.titular)}</span>`:`<span>Pedí el CBU o alias por WhatsApp para transferir.</span>`}</div><p class="mu">Cuando transfieras, enviá el comprobante por WhatsApp y confirmamos tu reserva.</p><a class="btn y" target="_blank" rel="noopener" href="${esc(waUrl(`Hola Nueva Era! Reservé el viaje ${id} y pago por transferencia ${fmt(monto)}. Te envío el comprobante.`))}">Enviar comprobante por WhatsApp</a>`:`<p>Abonaste <b>${fmt(monto)}</b> con ${esc(medio)}. ${sal>0?`Te queda un saldo de <b>${fmt(sal)}</b> para pagar antes del viaje desde Mis reservas.`:"La reserva quedó totalmente abonada."}</p>`}
 <div class="cta" style="margin-top:18px"><button class="btn" id="pgv" type="button">Ver mis reservas</button><button class="btn o" id="pgc" type="button">Cerrar</button></div>
 <p class="nt2">Prototipo: no se realizó ningún cobro real.</p></div>`;
 }

@@ -7,14 +7,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<meta name="theme-color" content="#0A192F">
 <link rel="icon" type="image/png" href="img/logo-ne.png">
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 <header><div class="top"></div><div class="w nv">
 <a href="#inicio" class="lg"><img src="img/logo.png" alt="Nueva Era Transporte"></a>
+<div class="nr">
+<nav id="nv"><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido">Recorrido 3D</a><a href="#cotizador">Cotizador</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav>
+<div class="um" id="um"></div>
 <button class="bg" id="bg" aria-label="Menú"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-<nav id="nv"><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido" style="color:var(--or)">Recorrido 3D</a><a href="#reservas">Mis reservas</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a><button class="btn" id="acc" type="button">Ingresar</button></nav>
+</div>
 </div></header>
 
 <main>
@@ -22,8 +26,8 @@
 <div class="hero-t"><div class="hero-in">
 <span class="tag"><b></b> Flota 100% monitoreada por GPS en tiempo real</span>
 <h1>El transporte del <em>mendocino</em>, desde 1942.</h1>
-<p>Tres generaciones llevando empresas, escuelas y turistas por toda la provincia, con unidades propias, choferes de confianza y precio claro antes de viajar.</p>
-<div class="cta"><button class="btn y" data-vr>🚌 Entrar al colectivo</button><a class="btn" href="#cotizador">Cotizá tu traslado →</a><a class="btn o" href="#flota">Conocé la flota</a></div>
+<p>Llevamos empresas, escuelas y turistas por toda la provincia, con unidades propias, choferes de confianza y precio claro antes de viajar.</p>
+<div class="cta"><button class="btn o" data-vr>🚌 Entrar al colectivo</button><a class="btn" href="#cotizador">Cotizá tu traslado →</a><a class="btn o" href="#flota">Conocé la flota</a></div>
 </div></div>
 <div class="hero-i"><img class="hb" alt="Ómnibus de Nueva Era en una ruta de montaña de Mendoza, con el dique y la cordillera de fondo" src="img/banner.jpg"></div>
 </section>
@@ -57,14 +61,13 @@
 <p class="nt">Valores de referencia de la propuesta. Los kilómetros salen de la ruta real entre los puntos marcados; en la versión final se integra Google Maps Platform y las tarifas salen de la matriz de costos de la empresa.</p></aside>
 </div></div></section>
 
-<section style="padding:56px 0 0"><div class="w"><div class="stats rv-in" style="margin-top:0">
+<section style="padding:56px 0 0"><div class="w"><div class="stats s3 rv-in" style="margin-top:0">
 <div><b>1942</b><span>Fundada en Maipú por Ibrahim Rauek</span></div>
-<div><b>3ª gen.</b><span>Gestión familiar, la familia Rauek</span></div>
 <div><b>29</b><span>Unidades Mercedes-Benz y Volkswagen</span></div>
 <div><b>100%</b><span>Flota con telemetría GPS satelital</span></div>
 </div></div></section>
 
-<section id="servicios" class="alt"><div class="w">
+<section id="servicios" class="dkb"><div class="w">
 <span class="eye">Qué hacemos</span><h2>Servicio contratado, a tu medida.</h2>
 <p class="lead">Contratás la unidad completa, con itinerario y precio pactados de antemano, tal como establece la Ley Provincial 9086 de Movilidad de Mendoza.</p>
 <div class="grid g4">
@@ -87,7 +90,7 @@
 </div>
 </div></section>
 
-<section id="recorrido"><div class="w"><span class="eye">Recorrido 3D</span><h2>Viajá cómodo, viajá seguro.</h2>
+<section id="recorrido" class="dkb"><div class="w"><span class="eye">Recorrido 3D</span><h2>Viajá cómodo, viajá seguro.</h2>
 <p class="lead">Butacas tapizadas, pasillos amplios y unidades en perfecto estado. Tocá una foto para verla en grande, o subite al colectivo.</p><button class="btn y" data-vr style="margin-top:20px">🚌 Entrar al colectivo</button>
 <div class="gal rv-in"><figure><img src="img/galeria-pasillo-50.webp" alt="Pasillo de un ómnibus de 50 butacas con cubre-cabezales de Nueva Era" loading="lazy"><figcaption>Ómnibus de 50 butacas</figcaption></figure>
 <figure><img src="img/galeria-pasillo-bano.webp" alt="Pasillo del ómnibus con baño, butacas reclinables y baño al fondo" loading="lazy"><figcaption>Ómnibus con baño</figcaption></figure>
@@ -96,10 +99,6 @@
 <div class="vtop"><div><b id="vt"></b><small>Recorrido virtual</small></div><span class="gps"><i></i>GPS en vivo</span><a class="btn" id="vq" href="#cotizador">Cotizar</a><button id="vx" aria-label="Cerrar">✕</button></div>
 <div class="vh" id="vh">Arrastrá o inclinás el celular para mirar</div><div class="hi" id="hi"></div><div class="vn" id="vn"></div></div>
 <div class="lb" id="lb"><img alt=""></div>
-<section id="reservas" class="alt"><div class="w">
-<span class="eye">Mi cuenta</span><h2>Tus viajes y tus datos, en un solo lugar.</h2>
-<p class="lead">Tus reservas, tus datos personales, tu billetera y tu contraseña.</p>
-<div id="cta" style="margin-top:36px"></div></div></section>
 
 <section id="faq"><div class="w" style="max-width:820px">
 <span class="eye">Preguntas frecuentes</span><h2>Lo que más nos preguntan.</h2><div style="height:24px"></div>
@@ -111,16 +110,16 @@
 
 <section id="contacto" class="alt"><div class="w ct">
 <div><span class="eye">Contacto</span><h2>Hablemos de tu próximo viaje.</h2>
-<ul><li><span class="ic" style="margin:0">📍</span>Maipú, Mendoza, Argentina</li><li><span class="ic" style="margin:0">💬</span>WhatsApp Business (a definir)</li><li><span class="ic" style="margin:0">✉️</span>contacto@nuevaera.com.ar (a definir)</li></ul><a class="btn y" data-asesor target="_blank" rel="noopener" style="margin-top:22px">💬 Quiero hablar con un asesor</a></div>
+<ul><li><span class="ic" style="margin:0">📍</span>Maipú, Mendoza, Argentina</li><li><span class="ic" style="margin:0">💬</span>WhatsApp: +54 9 261 609-8573</li><li><span class="ic" style="margin:0">✉️</span><a href="mailto:nuevaeracontacto@gmail.com">nuevaeracontacto@gmail.com</a></li></ul><a class="btn y" data-asesor target="_blank" rel="noopener" style="margin-top:22px">💬 Quiero hablar con un asesor</a></div>
 <div class="card" style="display:grid;gap:14px"><div class="f"><label for="nm">Nombre o empresa</label><input id="nm"></div><div class="f"><label for="ms">Mensaje</label><textarea id="ms" rows="4"></textarea></div><button class="btn" id="sd" style="justify-content:center">Enviar consulta</button></div>
 </div></section>
 </main>
 <footer><div class="w ft">
 <div class="fc fb"><span class="lg"><img src="img/logo.png" alt="Nueva Era Transporte"></span>
 <p>Traslados en Mendoza desde 1942. Servicio contratado con unidades propias, choferes de confianza y GPS satelital.</p>
-<p>📍 Maipú, Mendoza, Argentina<br>💬 WhatsApp Business (a definir)<br>✉️ contacto@nuevaera.com.ar (a definir)</p></div>
-<div class="fc"><h4>Nueva Era</h4><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido">Recorrido 3D</a><a href="#cotizador">Cotizador</a><a href="#reservas">Mi cuenta y reservas</a><a href="#faq">Preguntas frecuentes</a><a href="#contacto">Contacto</a></div>
-<div class="fc"><h4>Ayuda y aspectos legales</h4><a href="#legales" data-lgl="comprar">Cómo comprar</a><a href="#legales" data-lgl="pagos">Medios de pago y promociones</a><a href="#legales" data-lgl="cambios">Cambios y devoluciones</a><a href="#legales" data-lgl="perdidos">Objetos perdidos</a><a href="#legales" data-lgl="legales">Aspectos legales</a><a href="#legales" data-lgl="terminos">Términos y condiciones</a></div>
+<p>📍 Maipú, Mendoza, Argentina<br>💬 WhatsApp: +54 9 261 609-8573<br>✉️ <a href="mailto:nuevaeracontacto@gmail.com">nuevaeracontacto@gmail.com</a></p></div>
+<div class="fc"><h4>Nueva Era</h4><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido">Recorrido 3D</a><a href="#cotizador">Cotizador</a><a href="#faq">Preguntas frecuentes</a><a href="#contacto">Contacto</a></div>
+<div class="fc"><h4>Ayuda y aspectos legales</h4><a href="#legales" data-lgl="comprar">Cómo comprar</a><a href="#legales" data-lgl="pagos">Medios de pago y promociones</a><a href="#legales" data-lgl="cambios">Cambios y devoluciones</a><a href="#legales" data-lgl="perdidos">Objetos perdidos</a><a href="#legales" data-lgl="legales">Aspectos legales</a><a href="#legales" data-lgl="menores">Menores de edad</a><a href="#legales" data-lgl="terminos">Términos y condiciones</a></div>
 </div><div class="w fbot"><span>© 2026 Nueva Era Transporte · Maipú, Mendoza</span><span>Propuesta digital · Tesina UTN</span></div></footer>
 
 <div class="md" id="lgm"><div class="mc" role="dialog" aria-modal="true" aria-labelledby="lgt">
@@ -138,6 +137,9 @@
 </form>
 <p class="nt2">Prototipo: la cuenta se simula en este navegador y no se envía nada a ningún servidor.</p>
 </div></div>
+<div class="md" id="acm"><div class="mc mcw mca" role="dialog" aria-modal="true" aria-label="Mi cuenta">
+<button class="mx" id="acx" type="button" aria-label="Cerrar">✕</button>
+<div id="acp" class="acp"></div></div></div>
 <div class="md" id="pgm"><div class="mc mcw" role="dialog" aria-modal="true" aria-labelledby="pgh">
 <button class="mx" id="pgx" type="button" aria-label="Cerrar">✕</button>
 <h3 id="pgh">Confirmá tu reserva</h3><div id="pgb"></div></div></div>

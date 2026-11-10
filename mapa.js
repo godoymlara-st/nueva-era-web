@@ -102,12 +102,12 @@ async function route(noFit){
   const j=await r.json();if(my!==rseq)return;
   if(j.code!=="Ok")throw 0;
   const rt=j.routes[0];
-  if(map){line=L.geoJSON(rt.geometry,{style:{color:"#e8300d",weight:5,opacity:.85}}).addTo(map);if(!noFit)map.fitBounds(line.getBounds(),{padding:[34,34]})}
+  if(map){line=L.geoJSON(rt.geometry,{style:{color:"#0A192F",weight:5,opacity:.85}}).addTo(map);if(!noFit)map.fitBounds(line.getBounds(),{padding:[34,34]})}
   setKm(rt.distance/1000,`Ruta por calles: ${(rt.distance/1000).toFixed(1)} km · unos ${mins(rt.duration)} de viaje. Los km del cotizador se actualizaron (podés ajustarlos).`);
  }catch(e){
   if(my!==rseq)return;
   const km=hav(o,d)*1.3;
-  if(map){line=L.polyline([[o.lat,o.lng],[d.lat,d.lng]],{color:"#e8300d",weight:4,dashArray:"6 8"}).addTo(map);if(!noFit)map.fitBounds(line.getBounds(),{padding:[34,34]})}
+  if(map){line=L.polyline([[o.lat,o.lng],[d.lat,d.lng]],{color:"#0A192F",weight:4,dashArray:"6 8"}).addTo(map);if(!noFit)map.fitBounds(line.getBounds(),{padding:[34,34]})}
   setKm(km,"No se pudo trazar la ruta por calles; estimamos los km en línea recta (×1,3). Podés ajustarlos a mano.");
  }
 }

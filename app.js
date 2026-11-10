@@ -1,6 +1,8 @@
 /* ===== CONFIGURACIÓN (editar acá) ===== */
-const WA_NUM="";   // WhatsApp Business de Nueva Era: código de país + número, sin "+" (ej: 5492610000000). A definir.
+const WA_NUM="5492616098573";   // WhatsApp Business de Nueva Era: código de país + número, sin "+" (ej: 5492610000000). 
 const SENA=0.3;    // Porcentaje de seña al reservar (0.3 = 30%). A definir con la empresa.
+// Datos para transferencias (se muestran en el pago por transferencia). Si quedan vacíos, se pide por WhatsApp.
+const BANCO={cbu:"",alias:"",titular:"Nueva Era Transporte"};
 const waUrl=m=>"https://wa.me/"+WA_NUM+"?text="+encodeURIComponent(m);
 
 const $=id=>document.getElementById(id),fmt=n=>"$ "+Math.round(n).toLocaleString("es-AR");
@@ -42,11 +44,9 @@ document.querySelectorAll(".gal img").forEach(i=>i.onclick=()=>{const l=$("lb");
 const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("v")),{threshold:.15});
 document.querySelectorAll(".rv-in").forEach(e=>io.observe(e));
 
-(function(){const SC=[{t:"Exterior · Volkswagen interno 04",img:"img/interno-04-volksbus.webp",n:"Afuera",z:[64,58],hs:[{x:64,y:58,go:1,l:"▶"},{x:30,y:36,l:"i",h:"Volkswagen Volksbus 17.230 OD",d:"45 butacas reclinables, aire acondicionado, calefacción y baño a bordo."}]},
-{t:"Pasillo · Ómnibus de 50 butacas",img:"img/galeria-pasillo-50.webp",n:"Pasillo",hs:[{x:15,y:68,l:"i",h:"Butacas",d:"Asientos tapizados con cubre-cabezal Nueva Era y buen espacio entre filas."},{x:30,y:14,l:"i",h:"Aire acondicionado",d:"Salidas de aire individuales sobre cada fila, más calefacción para el invierno."},{x:21,y:34,l:"i",h:"Cortinas",d:"Control de luz y sol en los viajes largos."},{x:51,y:44,l:"i",h:"Telemetría GPS",d:"Las 29 unidades se monitorean por satélite en tiempo real."},{x:51,y:68,go:2,l:"→"}]},
-{t:"Pasillo · Ómnibus con baño",img:"img/galeria-pasillo-bano.webp",n:"Con baño",hs:[{x:50,y:50,l:"i",h:"Baño a bordo",d:"El interno 04 cuenta con baño al fondo, ideal para los viajes largos."},{x:20,y:66,l:"i",h:"Butacas reclinables",d:"Asientos con cinturón de seguridad y apoyabrazos."},{x:50,y:12,l:"i",h:"Aire acondicionado y calefacción",d:"Climatización en todo el pasillo."},{x:50,y:70,go:3,l:"→"}]},
-{t:"Butacas reclinables",img:"img/galeria-butacas.webp",n:"Butacas",hs:[{x:42,y:42,l:"i",h:"Respaldo alto",d:"Butacas con cabecera y cinturón de seguridad."},{x:80,y:30,l:"i",h:"Ventanas amplias",d:"Mucha luz natural y vista a la montaña."},{x:56,y:70,l:"i",h:"Apoyabrazos",d:"Cada butaca tiene apoyabrazos propio."},{x:88,y:72,go:4,l:"→"}]},
-{t:"Exterior · Sprinter interno 26",img:"img/interno-26-sprinter.webp",n:"Sprinter",hs:[{x:68,y:50,l:"i",h:"Mercedes-Benz Sprinter",d:"19 butacas reclinables, aire acondicionado y calefacción. Ideal para grupos chicos."},{x:50,y:70,go:0,l:"↺"}]}];
+(function(){const SC=[{t:"Pasillo · Ómnibus de 50 butacas",img:"img/galeria-pasillo-50.webp",n:"Pasillo",hs:[{x:15,y:68,l:"i",h:"Butacas",d:"Asientos tapizados con cubre-cabezal Nueva Era y buen espacio entre filas."},{x:30,y:14,l:"i",h:"Aire acondicionado",d:"Salidas de aire individuales sobre cada fila, más calefacción para el invierno."},{x:21,y:34,l:"i",h:"Cortinas",d:"Control de luz y sol en los viajes largos."},{x:51,y:44,l:"i",h:"Telemetría GPS",d:"Las 29 unidades se monitorean por satélite en tiempo real."},{x:51,y:68,go:1,l:"→"}]},
+{t:"Pasillo · Ómnibus con baño",img:"img/galeria-pasillo-bano.webp",n:"Con baño",hs:[{x:50,y:50,l:"i",h:"Baño a bordo",d:"El interno 04 cuenta con baño al fondo, ideal para los viajes largos."},{x:20,y:66,l:"i",h:"Butacas reclinables",d:"Asientos con cinturón de seguridad y apoyabrazos."},{x:50,y:12,l:"i",h:"Aire acondicionado y calefacción",d:"Climatización en todo el pasillo."},{x:50,y:70,go:2,l:"→"}]},
+{t:"Butacas reclinables",img:"img/galeria-butacas.webp",n:"Butacas",hs:[{x:42,y:42,l:"i",h:"Respaldo alto",d:"Butacas con cabecera y cinturón de seguridad."},{x:80,y:30,l:"i",h:"Ventanas amplias",d:"Mucha luz natural y vista a la montaña."},{x:56,y:70,l:"i",h:"Apoyabrazos",d:"Cada butaca tiene apoyabrazos propio."},{x:88,y:72,go:0,l:"↺"}]}];
 const $=id=>document.getElementById(id),vr=$("vr"),vi=$("vi"),vimg=$("vimg"),vp=$("vp"),vv=$("vv"),hi=$("hi");
 let s=0,px=0,py=0,tx=0,ty=0,W=0,H=0,drag=null,raf=0,busy=false,mx=0,my=0,gx=0;
 const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -55,11 +55,10 @@ function lim(){return[Math.max(0,(W-innerWidth)/2),Math.max(0,(H-innerHeight)/2)
 function loop(){const[lx,ly]=lim();tx=Math.max(-lx,Math.min(lx,tx));ty=Math.max(-ly,Math.min(ly,ty));
 px+=(tx+(drag?0:mx*-14+gx)-px)*.08;py+=(ty+(drag?0:my*-10)-py)*.08;vi.style.transform=`translate(-50%,-50%) translate(${px}px,${py}px)`;raf=requestAnimationFrame(loop)}
 function hsRender(){const c=$("vhs");c.innerHTML="";SC[s].hs.forEach(o=>{const d=document.createElement("div");d.className="hsp"+(o.go!=null?" go":"");d.style.cssText=`left:${o.x}%;top:${o.y}%`;const b=document.createElement("button");b.textContent=o.l;b.setAttribute("aria-label",o.h||"Avanzar");
-b.onclick=e=>{e.stopPropagation();if(o.go!=null){o.go===1&&s===0?enter():set(o.go)}else{hi.innerHTML=`<b>${o.h}</b><span>${o.d}</span>`;hi.classList.add("on");clearTimeout(hi._t);hi._t=setTimeout(()=>hi.classList.remove("on"),4200)}};b.addEventListener("pointerdown",e=>e.stopPropagation());d.append(b);c.append(d)})}
+b.onclick=e=>{e.stopPropagation();if(o.go!=null){set(o.go)}else{hi.innerHTML=`<b>${o.h}</b><span>${o.d}</span>`;hi.classList.add("on");clearTimeout(hi._t);hi._t=setTimeout(()=>hi.classList.remove("on"),4200)}};b.addEventListener("pointerdown",e=>e.stopPropagation());d.append(b);c.append(d)})}
 function load(i,cb){vimg.onload=()=>{size();cb&&cb()};vimg.src=SC[i].img;if(vimg.complete)vimg.onload()}
 function nav(){$("vn").innerHTML=SC.map((o,i)=>`<button class="${i===s?"on":""}" data-i="${i}" aria-label="${o.t}"><img src="${o.img}" alt=""><span>${o.n}</span></button>`).join("");$("vn").querySelectorAll("button").forEach(b=>b.onclick=()=>set(+b.dataset.i))}
 function set(i){if(busy)return;busy=true;hi.classList.remove("on");vv.classList.add("on");setTimeout(()=>{s=i;$("vt").textContent=SC[i].t;px=py=tx=ty=0;load(i,()=>{hsRender();nav();vp.style.transition="none";vp.style.transform="scale(1)";vv.classList.remove("on");busy=false;const h=$("vh");h.style.opacity=1;setTimeout(()=>h.style.opacity=0,3500)})},rm?0:500)}
-function enter(){if(busy)return;busy=true;hi.classList.remove("on");const o=SC[0].z;vp.style.transformOrigin=`${o[0]}% ${o[1]}%`;vp.style.transition=rm?"none":"transform 1.3s cubic-bezier(.65,0,.25,1)";vp.style.transform="scale(3.2)";setTimeout(()=>vv.classList.add("on"),rm?0:900);setTimeout(()=>{busy=false;set(1)},rm?0:1400)}
 function open(){vr.classList.add("on");document.body.style.overflow="hidden";s=0;busy=false;$("vt").textContent=SC[0].t;vp.style.transition="none";vp.style.transform="scale(1)";vv.classList.remove("on");px=py=tx=ty=0;load(0,()=>{hsRender();nav();$("vh").style.opacity=1;setTimeout(()=>$("vh").style.opacity=0,4000)});cancelAnimationFrame(raf);loop();
 if(window.DeviceOrientationEvent)addEventListener("deviceorientation",gyro)}
 function close(){vr.classList.remove("on");document.body.style.overflow="";cancelAnimationFrame(raf);removeEventListener("deviceorientation",gyro)}
