@@ -30,3 +30,6 @@ Subí el contenido de esta carpeta a un repositorio de GitHub y conectalo con Ne
 - Reemplazar el login, las reservas y los pagos simulados por un backend (por ejemplo Firebase o Supabase) y una pasarela de pago (Mercado Pago, etc.).
 - Cambiar OpenStreetMap por Google Maps Platform (requiere clave de API).
 - Cargar la matriz de tarifas real de la empresa.
+
+## Archivos
+- `index.html` (página), `estilos.css`, `app.js` (cotizador, flota, Recorrido 3D, configuración), `mapa.js`, `legales.js`, `pdf.js` (genera el PDF del presupuesto), `cuenta.js` (usuario, reservas, presupuestos, billetera, pago) e `img/` (fotos).

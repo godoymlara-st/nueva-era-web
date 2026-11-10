@@ -24,13 +24,13 @@ comprar:{t:"Cómo comprar",h:()=>`<ol class="lgo">
 <li><b>Ingresá o creá tu usuario.</b> Lo necesitás para reservar y seguir tus viajes.</li>
 <li><b>Reservá.</b> Tocá “Reservar este viaje” y elegí si querés señar (${pct()}% del total) o pagar todo.</li>
 <li><b>Elegí cómo pagar.</b> Tarjeta de crédito o débito, Mercado Pago o transferencia bancaria.</li>
-<li><b>Seguí tu reserva.</b> En el menú de tu nombre (arriba a la derecha) → Mis reservas ves el estado, el recorrido en Google Maps y, si señaste, el saldo que queda por pagar antes del viaje.</li></ol>
+<li><b>Seguí tu reserva.</b> En el menú de tu nombre (arriba a la derecha) → Mis viajes ves el estado, el recorrido en Google Maps y, si señaste, el saldo que queda por pagar antes del viaje.</li></ol>
 <p>Trabajamos como Servicio Contratado General: se contrata la unidad completa, con itinerario y precio pactados. No vendemos pasajes individuales.</p>
 <p>¿Dudas? Tocá “Quiero hablar con un asesor” y te atendemos por WhatsApp.</p>`},
 pagos:{t:"Medios de pago y promociones",h:()=>`<h4>Medios de pago aceptados</h4>
 <ul><li>Tarjetas de crédito y débito (Visa, Mastercard, American Express).</li><li>Mercado Pago.</li><li>Transferencia bancaria${D.cbu||D.alias?` (${D.cbu?"CBU: "+D.cbu:""}${D.cbu&&D.alias?" · ":""}${D.alias?"alias: "+D.alias:""})`:". Pedí los datos por WhatsApp al reservar."}</li></ul>
 <h4>Seña y saldo</h4>
-<p>Para reservar podés abonar una seña del ${pct()}% del importe total o pagar el total. El saldo se abona antes del viaje, desde el menú de tu nombre (arriba a la derecha) → Mis reservas.</p>
+<p>Para reservar podés abonar una seña del ${pct()}% del importe total o pagar el total. El saldo se abona antes del viaje, desde el menú de tu nombre (arriba a la derecha) → Mis viajes.</p>
 <h4>Promociones</h4>
 <p>Consultá con un asesor por las promociones vigentes y las tarifas especiales para escuelas, instituciones y empresas con servicio mensual.</p>`},
 cambios:{t:"Cambios y devoluciones",h:()=>`<h4>Cambios</h4>

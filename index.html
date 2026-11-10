@@ -6,13 +6,13 @@
 <title>Nueva Era Transporte | Traslados en Mendoza desde 1942</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+
 <meta name="theme-color" content="#0A192F">
-<link rel="icon" type="image/png" href="img/logo-ne.png">
+<link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-<header><div class="top"></div><div class="w nv">
+<header id="hd"><div class="ann"><a href="#cotizador">🏷️ Reservando <b>online</b> tenés un <b>10% de descuento</b> en todos tus traslados · Cotizá ahora</a></div><div class="w nv">
 <a href="#inicio" class="lg"><img src="img/logo.png" alt="Nueva Era Transporte"></a>
 <div class="nr">
 <nav id="nv"><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido">Recorrido 3D</a><a href="#cotizador">Cotizador</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav>
@@ -27,7 +27,7 @@
 <span class="tag"><b></b> Flota 100% monitoreada por GPS en tiempo real</span>
 <h1>El transporte del <em>mendocino</em>, desde 1942.</h1>
 <p>Llevamos empresas, escuelas y turistas por toda la provincia, con unidades propias, choferes de confianza y precio claro antes de viajar.</p>
-<div class="cta"><button class="btn o" data-vr>🚌 Entrar al colectivo</button><a class="btn" href="#cotizador">Cotizá tu traslado →</a><a class="btn o" href="#flota">Conocé la flota</a></div>
+<div class="cta"><a class="btn" href="#cotizador">Cotizá tu traslado →</a><a class="btn o" href="#servicios">Conocé nuestros servicios</a></div>
 </div></div>
 <div class="hero-i"><img class="hb" alt="Ómnibus de Nueva Era en una ruta de montaña de Mendoza, con el dique y la cordillera de fondo" src="img/banner.jpg"></div>
 </section>
@@ -38,8 +38,10 @@
 <p class="lead">Buscá la dirección o marcá en el mapa el punto exacto de salida y de llegada, elegí la unidad y obtené un valor estimado al instante. Después lo confirmamos con vos por WhatsApp.</p>
 <div class="cot">
 <div class="form">
-<div class="f"><label for="fe">Fecha</label><input type="date" id="fe"></div>
+<div class="f"><label for="fe">Fecha de salida</label><input type="date" id="fe"></div>
 <div class="f"><label for="un">Unidad</label><select id="un"><option value="bus">Ómnibus · 50 asientos</option><option value="vw">Ómnibus con baño · 45 asientos</option><option value="spr">Sprinter · 19 asientos</option></select></div>
+<div class="f"><label for="hs">Hora de ida</label><input type="time" id="hs" value="08:00"></div>
+<div class="f"><label for="hr">Hora de regreso</label><input type="time" id="hr" value="18:00"></div>
 <div class="f" style="position:relative"><label for="or">Origen</label><input id="or" placeholder="Dirección, lugar o coordenadas" autocomplete="off"><ul class="sg" id="sgor" hidden></ul></div>
 <div class="f" style="position:relative"><label for="de">Destino</label><input id="de" placeholder="Dirección, lugar o coordenadas" autocomplete="off"><ul class="sg" id="sgde" hidden></ul></div>
 <div class="full mapbox">
@@ -48,16 +50,22 @@
 <p class="mapst" id="mst" aria-live="polite">Escribí una dirección y elegí una sugerencia, o tocá el mapa para fijar el punto exacto. Podés arrastrar los pines A y B para ajustarlos.</p>
 <div class="gml"><a id="gmo" href="https://www.google.com/maps" target="_blank" rel="noopener">Ver origen en Google Maps ↗</a><a id="gmd" href="https://www.google.com/maps" target="_blank" rel="noopener">Ver destino en Google Maps ↗</a><a id="gmr" href="https://www.google.com/maps" target="_blank" rel="noopener">Ruta completa en Google Maps ↗</a></div>
 </div>
-<div class="f"><label for="km">Distancia del tramo (km) <span class="hint">· se calcula sola con el mapa</span></label><input type="number" id="km" min="1" value="60"></div>
+<div class="f"><label for="km">Distancia del tramo (km)</label><input type="number" id="km" min="1" value="60"></div>
 <div class="f"><label for="es">Tiempo de espera (hs)</label><input type="number" id="es" min="0" step=".5" value="3"></div>
-<label class="sw full f" style="flex-direction:row"><input type="checkbox" id="ida"> Solo ida</label>
+<div class="f full"><label for="tv">Tipo de servicio</label><select id="tv"><option value="iv">Ida y vuelta (viaje único)</option><option value="semanal">Abono semanal</option><option value="mensual">Abono mensual</option><option value="anual">Abono anual</option><option value="personalizado">Abono personalizado</option></select></div>
+<div class="full ab" id="ab" hidden><b>Rango de días del abono</b><p class="mu" id="abd"></p>
+<div class="f"><label for="ah">Hasta</label><input type="date" id="ah"></div>
+<div class="f"><label>Días de la semana en que viajan</label><div class="dws" id="dws"><label><input type="checkbox" value="0" checked><span>Lu</span></label><label><input type="checkbox" value="1" checked><span>Ma</span></label><label><input type="checkbox" value="2" checked><span>Mi</span></label><label><input type="checkbox" value="3" checked><span>Ju</span></label><label><input type="checkbox" value="4" checked><span>Vi</span></label><label><input type="checkbox" value="5"><span>Sá</span></label><label><input type="checkbox" value="6"><span>Do</span></label></div></div>
+<p class="mu" id="abn"></p></div>
 <label class="sw full f" style="flex-direction:row"><input type="checkbox" id="med"> Parada intermedia</label>
 <label class="sw full f" style="flex-direction:row"><input type="checkbox" id="en"> Chofer bilingüe (español / inglés)</label>
 </div>
 <aside class="res"><small>Importe total estimado</small><div class="tot" id="tot">$ 0</div>
 <div class="ln"><span>Servicio base</span><b id="r1"></b></div><div class="ln"><span>Kilómetros</span><b id="r2"></b></div><div class="ln"><span>Espera</span><b id="r3"></b></div><div class="ln"><span>Extras</span><b id="r4"></b></div>
-<button class="btn y" id="rs" type="button" style="width:100%;justify-content:center;margin-top:20px">Reservar este viaje</button>
-<a class="btn o" id="wa" href="#" target="_blank" rel="noopener" style="width:100%;justify-content:center;margin-top:10px;color:#fff">Pedir presupuesto formal</a>
+<div class="ln" id="lsub" hidden><span id="lsubl"></span><b id="rsub"></b></div><div class="ln" id="lab" hidden><span id="labl"></span><b id="rab"></b></div><div class="ln"><span>Descuento online (−10%)</span><b id="rdo"></b></div>
+<button class="btn" id="rs" type="button" style="width:100%;justify-content:center;margin-top:20px">Reservar este viaje</button>
+<button class="btn o" id="pdf" type="button" style="width:100%;justify-content:center;margin-top:10px">⬇ Descargar presupuesto en PDF</button>
+<p class="nt" style="margin-top:12px">Cada presupuesto tiene un número y una vigencia de <b>10 días</b> desde que lo solicitás. Al descargarlo o reservar, avisamos a un asesor por WhatsApp y queda guardado en <b>Mis viajes</b>.</p>
 <p class="nt">Valores de referencia de la propuesta. Los kilómetros salen de la ruta real entre los puntos marcados; en la versión final se integra Google Maps Platform y las tarifas salen de la matriz de costos de la empresa.</p></aside>
 </div></div></section>
 
@@ -110,12 +118,12 @@
 
 <section id="contacto" class="alt"><div class="w ct">
 <div><span class="eye">Contacto</span><h2>Hablemos de tu próximo viaje.</h2>
-<ul><li><span class="ic" style="margin:0">📍</span>Maipú, Mendoza, Argentina</li><li><span class="ic" style="margin:0">💬</span>WhatsApp: +54 9 261 609-8573</li><li><span class="ic" style="margin:0">✉️</span><a href="mailto:nuevaeracontacto@gmail.com">nuevaeracontacto@gmail.com</a></li></ul><a class="btn y" data-asesor target="_blank" rel="noopener" style="margin-top:22px">💬 Quiero hablar con un asesor</a></div>
+<ul><li><span class="ic" style="margin:0">📍</span>Maipú, Mendoza, Argentina</li><li><span class="ic" style="margin:0">💬</span>WhatsApp: +54 9 261 609-8573</li><li><span class="ic" style="margin:0">✉️</span><a href="mailto:nuevaeracontacto@gmail.com">nuevaeracontacto@gmail.com</a></li></ul><a class="btn wa" data-asesor target="_blank" rel="noopener" style="margin-top:22px"><span class="wai" aria-hidden="true"></span>Quiero hablar con un asesor</a></div>
 <div class="card" style="display:grid;gap:14px"><div class="f"><label for="nm">Nombre o empresa</label><input id="nm"></div><div class="f"><label for="ms">Mensaje</label><textarea id="ms" rows="4"></textarea></div><button class="btn" id="sd" style="justify-content:center">Enviar consulta</button></div>
 </div></section>
 </main>
 <footer><div class="w ft">
-<div class="fc fb"><span class="lg"><img src="img/logo.png" alt="Nueva Era Transporte"></span>
+<div class="fc fb"><span class="lg lgf"><img src="img/logo-ne.png" alt="Nueva Era Transporte"></span>
 <p>Traslados en Mendoza desde 1942. Servicio contratado con unidades propias, choferes de confianza y GPS satelital.</p>
 <p>📍 Maipú, Mendoza, Argentina<br>💬 WhatsApp: +54 9 261 609-8573<br>✉️ <a href="mailto:nuevaeracontacto@gmail.com">nuevaeracontacto@gmail.com</a></p></div>
 <div class="fc"><h4>Nueva Era</h4><a href="#servicios">Servicios</a><a href="#flota">Flota</a><a href="#recorrido">Recorrido 3D</a><a href="#cotizador">Cotizador</a><a href="#faq">Preguntas frecuentes</a><a href="#contacto">Contacto</a></div>
@@ -140,6 +148,7 @@
 <div class="md" id="acm"><div class="mc mcw mca" role="dialog" aria-modal="true" aria-label="Mi cuenta">
 <button class="mx" id="acx" type="button" aria-label="Cerrar">✕</button>
 <div id="acp" class="acp"></div></div></div>
+<div class="md" id="nmm"><div class="mc mcw" role="dialog" aria-modal="true" aria-label="Nómina de pasajeros"><button class="mx" id="nmx" type="button" aria-label="Cerrar">✕</button><div id="nmb"></div></div></div>
 <div class="md" id="pgm"><div class="mc mcw" role="dialog" aria-modal="true" aria-labelledby="pgh">
 <button class="mx" id="pgx" type="button" aria-label="Cerrar">✕</button>
 <h3 id="pgh">Confirmá tu reserva</h3><div id="pgb"></div></div></div>
@@ -147,13 +156,14 @@
 <button class="mx" id="llx" type="button" aria-label="Cerrar">✕</button>
 <nav class="lln" id="lln" aria-label="Ayuda y aspectos legales"></nav>
 <div class="llc"><h3 id="llt"></h3><div id="llb"></div></div></div></div>
-<a class="wafab" data-asesor target="_blank" rel="noopener" aria-label="Quiero hablar con un asesor por WhatsApp"><span aria-hidden="true">💬</span><b>Quiero hablar con un asesor</b></a>
+<a class="wafab" data-asesor target="_blank" rel="noopener" aria-label="Quiero hablar con un asesor por WhatsApp"><span class="wai" aria-hidden="true"></span><b>Quiero hablar con un asesor</b></a>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script src="app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="mapa.js"></script>
 <script src="legales.js"></script>
+<script src="pdf.js"></script>
 <script src="cuenta.js"></script>
 </body>
 </html>

@@ -29,12 +29,24 @@ $("drv").addEventListener("click",e=>{const a=e.target.closest("[data-un]");if(a
 ficha("bus");
 $("un").addEventListener("change",()=>ficha($("un").value));
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ficha(b.dataset.k);$("un").value=b.dataset.k;calc()});
-function calc(){const u=U[$("un").value],km=Math.max(0,+$("km").value||0),h=Math.max(0,+$("es").value||0),ida=$("ida").checked;
-const base=u.b,kms=km*u.k*(ida?1:2),esp=h*u.e;let ex=0;if($("med").checked)ex+=(base+kms)*.08;if($("en").checked)ex+=(base+kms)*.1;
-const t=base+kms+esp+ex;$("tot").textContent=fmt(t);$("r1").textContent=fmt(base);$("r2").textContent=fmt(kms);$("r3").textContent=fmt(esp);$("r4").textContent=fmt(ex);
-const PT=window.__pts||{},ml=k=>PT[k]?` (${PT[k].url})`:"";window.__q={u:u.n,t,km,ida,or:$("or").value,de:$("de").value,fe:$("fe").value};
-const m=`Hola Nueva Era! Quiero cotizar: ${u.n}, ${$("or").value||"origen"}${ml("or")} → ${$("de").value||"destino"}${ml("de")}, ${km} km, ${ida?"solo ida":"ida y vuelta"}, fecha ${$("fe").value||"a definir"}. Estimado: ${fmt(t)}`;
-$("wa").href=waUrl(m)}
+/* Descuentos (editar acá): reserva online + precio especial por abono */
+const ONLINE=.10;
+const ABONO={semanal:{n:"Abono semanal",p:.05},mensual:{n:"Abono mensual",p:.12},anual:{n:"Abono anual",p:.20},personalizado:{n:"Abono personalizado"}};
+const DL=["Lu","Ma","Mi","Ju","Vi","Sá","Do"];
+const iso=d=>d.toISOString().slice(0,10),addD=(s,n)=>{const d=new Date(s+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+n);return iso(d)};
+function presetEnd(tv,fe){if(tv==="semanal")return addD(fe,6);const d=new Date(fe+"T12:00:00Z");if(tv==="mensual")d.setUTCMonth(d.getUTCMonth()+1);else d.setUTCFullYear(d.getUTCFullYear()+1);d.setUTCDate(d.getUTCDate()-1);return iso(d)}
+function svcDays(fe,h,dw){let n=0;const b=new Date(h+"T12:00:00Z");for(let d=new Date(fe+"T12:00:00Z"),i=0;d<=b&&i<800;d.setUTCDate(d.getUTCDate()+1),i++)if(dw.includes((d.getUTCDay()+6)%7))n++;return n}
+const fd2=s=>new Date(s+"T12:00:00Z").toLocaleDateString("es-AR",{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
+function calc(){const k=$("un").value,u=U[k],km=Math.max(0,+$("km").value||0),h=Math.max(0,+$("es").value||0),tv=$("tv").value,ab=tv!=="iv",fe=$("fe").value;
+$("ab").hidden=!ab;
+if(ab&&fe){const ah=$("ah");if(tv!=="personalizado")ah.value=presetEnd(tv,fe);else if(!ah.value||ah.value<fe)ah.value=addD(fe,13);ah.readOnly=tv!=="personalizado";ah.min=fe}
+const dw=[...document.querySelectorAll("#dws input:checked")].map(x=>+x.value),dias=ab&&fe?svcDays(fe,$("ah").value,dw):1;
+const base=u.b,kms=km*u.k*2,esp=h*u.e;let ex=0;if($("med").checked)ex+=(base+kms)*.08;if($("en").checked)ex+=(base+kms)*.1;
+const tar=base+kms+esp+ex,sub=tar*dias,pct=!ab?0:tv==="personalizado"?(dias<=7?.05:dias<=30?.10:.15):ABONO[tv].p,dab=sub*pct,don=(sub-dab)*ONLINE,t=sub-dab-don;
+$("tot").textContent=fmt(t);$("r1").textContent=fmt(base);$("r2").textContent=fmt(kms);$("r3").textContent=fmt(esp);$("r4").textContent=fmt(ex);
+$("lsub").hidden=$("lab").hidden=!ab;$("lsubl").textContent=`Subtotal × ${dias} día${dias===1?"":"s"} de servicio`;$("rsub").textContent=fmt(sub);$("labl").textContent=`Precio especial de abono (−${Math.round(pct*100)}%)`;$("rab").textContent="− "+fmt(dab);$("rdo").textContent="− "+fmt(don);
+if(ab){$("abd").textContent="El abono empieza en la fecha de salida elegida arriba. Indicá hasta qué día y en qué días de la semana viajan.";$("abn").textContent=dias?`${dias} día${dias===1?"":"s"} de servicio entre el ${fd2(fe)} y el ${fd2($("ah").value)}. Precio especial por abono: −${Math.round(pct*100)}% sobre el valor de cada viaje.`:"Elegí al menos un día de la semana que caiga dentro del rango."}
+window.__q={uk:k,u:u.n,t,km,tv,tvn:ab?ABONO[tv].n:"Ida y vuelta",ida:false,or:$("or").value,de:$("de").value,fe,hs:$("hs").value,hr:$("hr").value,es:h,ab:ab?{h:$("ah").value,dias,dl:dw.map(i=>DL[i]).join(" "),pct}:null,det:{base,kms,esp,ex,sub,dab,don,t}}}
 document.querySelectorAll(".form input,.form select").forEach(e=>e.addEventListener("input",calc));
 const d=new Date();d.setDate(d.getDate()+14);$("fe").value=d.toISOString().slice(0,10);calc();
 $("bg").onclick=()=>$("nv").classList.toggle("open");document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>$("nv").classList.remove("open"));
@@ -71,3 +83,9 @@ vr.addEventListener("pointerup",()=>drag=null);vr.addEventListener("pointercance
 addEventListener("keydown",e=>{if(!vr.classList.contains("on"))return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")tx+=140;if(e.key==="ArrowRight")tx-=140});
 addEventListener("resize",()=>vr.classList.contains("on")&&size());
 })();
+
+const WA_SVG='<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+document.querySelectorAll(".wai").forEach(e=>e.innerHTML=WA_SVG);
+$("pdf").onclick=()=>window.NE_pres&&window.NE_pres();
+addEventListener("scroll",()=>$("hd").classList.toggle("sc",scrollY>30),{passive:true});
+(function(){const hh=()=>{const a=document.querySelector(".ann a");document.documentElement.style.setProperty("--hh",(72+(a?a.offsetHeight:20)+18)+"px")};hh();addEventListener("resize",hh);addEventListener("load",hh)})();
